@@ -36,8 +36,8 @@ class JobQueueEntity(RedisListEntity):
     redis_client = redis.Redis(...)
     Prefix = "JobQueue"
 
-MyRedisListEntity.lpush("Worker1", "command1")
-assert MyRedisListEntity.length("Worker1") == 1
+JobQueueEntity.lpush("Worker1", "command1")
+assert JobQueueEntity.length("Worker1") == 1
 ```
 Supported Methods are:
 - `lpush`
