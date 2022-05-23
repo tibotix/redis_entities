@@ -3,7 +3,7 @@
 ## How to install it?
 
 You can install RedisEntites from this Github repository with `python3 setup.py install`,
-or just install it directly from pypi with `pip3 install redis_entities`.
+or just install it directly from pypi with `pip3 install redis-entities`.
 
 ## What is it?
 
