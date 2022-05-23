@@ -50,12 +50,12 @@ class RedisHashmapEntity(BaseRedisEntity):
 
     @classmethod
     def delete(cls, identifier):
-        cls.redis_client.delete(cls.key_name(identifier))
-        return cls(identifier)
+        return cls.redis_client.delete(cls.key_name(identifier))
 
     def __init__(self, identifier, **kwargs):
         self.identifier = identifier
         self.items = kwargs
+        self._enforce_valid_entity()
 
     def __getattr__(self, item):
         if item in self.items:
@@ -66,11 +66,10 @@ class RedisHashmapEntity(BaseRedisEntity):
         if item in self.items:
             self.items.pop(item)
 
-    def is_valid_entity(self):
+    def _enforce_valid_entity(self):
         for keyword in self.Contents:
             if not hasattr(self, keyword):
-                return False
-        return True
+                raise AttributeError(f"Key={keyword} not contained in Entity")
 
 
 class RedisSecureHashmapEntity(RedisHashmapEntity):
@@ -79,25 +78,45 @@ class RedisSecureHashmapEntity(RedisHashmapEntity):
     integrity protection. To use it, simply inherit from RedisSecureHashmapEntity instead of RedisHashmapEntity.
     """
 
-    IntegrityHMACKey = b""
+    HMACKey = b""
+
+    class SecureIntegrityEntityInformation:
+        @classmethod
+        def from_secure_integrity_entity(cls, secure_entity):
+            return cls(secure_entity.creation_timestamp,  secure_entity.identifier,
+                       secure_entity.identifier_hash, secure_entity.salt, secure_entity.mac)
+
+        def __init__(self, creation_timestamp, identifier, identifier_hash, salt, mac):
+            self.creation_timestamp = creation_timestamp
+            self.identifier = identifier
+            self.identifier_hash = identifier_hash
+            self.salt = salt
+            self.mac = mac
 
     @classmethod
     def store(cls, identifier, **kwargs):
         salt = kwargs.pop("salt", b"")
         secure_entity = SecureIntegrityEntity.create(
-            cls.IntegrityHMACKey,
+            cls.HMACKey,
             cls.Expire,
             identifier,
             *kwargs.values(),
             salt=salt,
         )
+        secure_entity_information = RedisSecureHashmapEntity.SecureIntegrityEntityInformation.\
+            from_secure_integrity_entity(secure_entity)
         kwargs["ExpireInterval"] = timestamp2b(cls.Expire)
         kwargs["CreationTimestamp"] = timestamp2b(secure_entity.creation_timestamp)
         kwargs["HMAC"] = secure_entity.mac
         return (
             super().store(secure_entity.identifier_hash.hex(), **kwargs),
-            secure_entity,
+            secure_entity_information,
         )
+
+    @classmethod
+    def length(cls, identifier, salt=None):
+        identifier_hash = SecureIntegrityEntity.hash_identifier(identifier, salt=salt)
+        return super().length(identifier_hash.hex())
 
     @classmethod
     def exists(cls, identifier, salt=None):
@@ -115,7 +134,7 @@ class RedisSecureHashmapEntity(RedisHashmapEntity):
         mac = obj.HMAC
         extra_args = [getattr(obj, keyword_arg) for keyword_arg in cls.Contents]
         SecureIntegrityEntity.verify_mac(
-            cls.IntegrityHMACKey,
+            cls.HMACKey,
             creation_timestamp,
             expire_interval,
             identifier_hash,

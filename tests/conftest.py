@@ -27,7 +27,7 @@ def redis_secure_hashmap_entity(redis_client):
     return type("TestSecureHashmapEntity", (RedisSecureHashmapEntity,), {
         'redis_client': redis_client, 'Prefix': 'TestPrefix',
         'Contents': contents, 'Expire': 180,
-        'IntegrityHMACKey': hmac_key})
+        'HMACKey': hmac_key})
 
 
 @pytest.fixture

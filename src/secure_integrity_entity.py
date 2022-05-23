@@ -16,6 +16,11 @@ class SecureIntegrityEntity:
     """
 
     @staticmethod
+    def _check_hmac_key(hmac_key):
+        if len(hmac_key) < 32:
+            raise AttributeError("Length of HMACKey has to be at least 32.")
+
+    @staticmethod
     def hash_identifier(identifier, salt=None):
         salt = require_bytes(salt) if salt is not None else b""
         identifier_hash = SHA512.new(
@@ -25,6 +30,7 @@ class SecureIntegrityEntity:
 
     @classmethod
     def create(cls, hmac_key, expire_interval, identifier, *extra_data, salt=None):
+        SecureIntegrityEntity._check_hmac_key(hmac_key)
         creation_timestamp = datetime.datetime.now()
         salt = require_bytes(salt) if salt is not None else b""
         expire_interval = require_timestamp_bytes(expire_interval)
@@ -52,6 +58,7 @@ class SecureIntegrityEntity:
         *extra_data,
         salt=None,
     ):
+        SecureIntegrityEntity._check_hmac_key(hmac_key)
         creation_timestamp = timestamp2b(creation_timestamp)
         expire_interval = require_timestamp_bytes(expire_interval)
         salt = require_bytes(salt) if salt is not None else b""

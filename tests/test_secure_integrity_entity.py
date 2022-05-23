@@ -36,3 +36,8 @@ def test_secure_integrity_entity_manipulated():
             HMAC_KEY, secure_entity.creation_timestamp, 10, secure_entity.identifier_hash, secure_entity.mac,
             "some_", "extra|data", salt=secure_entity.salt
         )
+
+
+def test_secure_integrity_wrong_hmac_key_size():
+    with pytest.raises(AttributeError):
+        SecureIntegrityEntity.create(b"hmackey", 10000, 10, b"identifierhash", b"mac", b"extra")

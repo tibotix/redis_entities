@@ -10,18 +10,13 @@ def test_redis_hashmap_entity_key_name(redis_hashmap_entity):
     )
 
 
-def test_redis_hashmap_is_valid_entity(redis_hashmap_entity):
-    assert (
-        redis_hashmap_entity("Identifier", Key1='Value1', Key2='Value2').is_valid_entity()
-        is True
-    )
-    assert (
-        redis_hashmap_entity("Identifier", Key1='Value1', Key2='Value2', extra=0).is_valid_entity()
-        is True
-    )
-    assert (
-        redis_hashmap_entity("Identifier", Key1='Value1').is_valid_entity() is False
-    )
+def test_redis_hashmap_enforce_valid_entity(redis_hashmap_entity):
+    redis_hashmap_entity.store('Identifier', Key1='Value1', Key2='Value2')
+    redis_hashmap_entity.store('Identifier', Key1='Value1', Key2='Value2', extra=0)
+    with pytest.raises(AttributeError):
+        redis_hashmap_entity.store('Identifier', Key1='Value1')
+    with pytest.raises(AttributeError):
+        redis_hashmap_entity.load('Identifierdoesnotexist')
 
 
 def test_redis_hashmap_store(redis_client, redis_hashmap_entity):
@@ -54,11 +49,6 @@ def test_redis_hashmap_load(redis_client, redis_hashmap_entity):
     assert loaded_obj.get(b"Key1") == reg.Key1 == b"Value1"
     assert loaded_obj.get(b"Key2") == reg.Key2 == b"Value2"
     assert redis_client.ttl(b"TestPrefix:Identifier") > 0
-
-    assert (
-        redis_hashmap_entity.load("Identifiernotexist").is_valid_entity()
-        is False
-    )
 
 
 def test_hashmap_length(redis_hashmap_entity):
