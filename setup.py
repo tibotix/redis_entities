@@ -8,7 +8,7 @@ here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(name='redis_entities',
-      version='1.0',
+      version='1.0.0',
       description='Redis Entities',
       long_description=long_description,
       author='Tibotix',
