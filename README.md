@@ -101,6 +101,7 @@ Supported Methods are:
 - `delete`
 - `length`
 
+All Keys are stored as strings, all values are stored as bytes.
 
 ### RedisSecureHashmapEntity
 
