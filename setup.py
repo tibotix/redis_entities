@@ -14,7 +14,8 @@ setup(name='redis_entities',
       author='Tibotix',
       author_email='tizian@seehaus.net',
       url='https://github.com/tibotix/redis_entities',
-      packages=["src"],
+      package_dir={"redis_entities": "src"},
+      packages=["redis_entities"],
       extras_require={
         "test": ["pytest", "fakeredis"]
       },
