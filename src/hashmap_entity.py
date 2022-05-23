@@ -1,7 +1,7 @@
 import time
-from src.base_entity import BaseRedisEntity
-from src.secure_integrity_entity import SecureIntegrityEntity
-from src.parameters import require_string, require_bytes, b2timestamp, timestamp2b
+from .base_entity import BaseRedisEntity
+from .secure_integrity_entity import SecureIntegrityEntity
+from .parameters import require_string, require_bytes, b2timestamp, timestamp2b
 
 
 class RedisHashmapEntity(BaseRedisEntity):

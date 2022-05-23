@@ -1,4 +1,4 @@
-from src.parameters import require_string
+from .parameters import require_string
 
 
 class BaseRedisEntity:

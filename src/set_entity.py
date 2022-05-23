@@ -1,4 +1,4 @@
-from src.base_entity import BaseRedisEntity
+from .base_entity import BaseRedisEntity
 
 
 class RedisSetEntity(BaseRedisEntity):

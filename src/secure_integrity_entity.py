@@ -2,9 +2,9 @@ import datetime
 import hmac
 from Crypto.Hash import SHA512
 
-from src.exceptions import IntegrityException
-from src.parameters import timestamp2b
-from src.parameters import require_bytes, require_timestamp_bytes
+from .exceptions import IntegrityException
+from .parameters import timestamp2b
+from .parameters import require_bytes, require_timestamp_bytes
 
 
 class SecureIntegrityEntity:
