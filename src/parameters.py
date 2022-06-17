@@ -1,6 +1,7 @@
 import datetime
 import struct
 
+
 def b2s(b):
     if isinstance(b, str):
         return b
@@ -22,7 +23,7 @@ def require_string(a, int_to_string=False):
 def b2timestamp(b):
     if not isinstance(b, bytes):
         raise TypeError("Invalid Bytes type")
-    return struct.unpack(">L", b)[0]
+    return struct.unpack(">Q", b)[0]
 
 
 def timestamp2b(timestamp):
@@ -34,7 +35,7 @@ def timestamp2b(timestamp):
         timestamp = int(timestamp)
     if not isinstance(timestamp, int):
         raise TypeError("Invalid Timestamp Type")
-    return struct.pack(">L", timestamp)
+    return struct.pack(">Q", timestamp)
 
 
 def require_timestamp_bytes(a):

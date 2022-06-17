@@ -1,5 +1,2 @@
-
-
-class IntegrityException(Exception):
+class DecryptionException(Exception):
     pass
-
