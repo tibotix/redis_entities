@@ -9,7 +9,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="redis_entities",
-    version="1.0.2",
+    version="1.0.3",
     description="Redis Entities",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -17,7 +17,7 @@ setup(
     author_email="tizian@seehaus.net",
     url="https://github.com/tibotix/redis_entities",
     package_dir={"redis_entities": "src"},
-    packages=["redis_entities"],
+    packages=["redis_entities", "redis_entities.mixins"],
     extras_require={"test": ["pytest", "fakeredis"]},
     python_requires=">=3.5, <4",
 )
