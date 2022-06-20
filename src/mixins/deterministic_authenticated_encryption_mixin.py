@@ -20,7 +20,7 @@ class DeterministicAuthenticatedEncryptionMixin(MixinBaseClass):
     def encrypt_data(cls, key, value) -> bytes:
         expire = cls.Expire if cls.Expire is not None else 0xFFFFFFFF
         expire = time.time() + expire
-        aes = AES.new(cls.AesKey, AES.MODE_SIV)
+        aes = AES.new(require_bytes(cls.AesKey), AES.MODE_SIV)
         aes.update(require_bytes(key))
         payload = timestamp2b(expire) + require_bytes(value)
         ciphertext, tag = aes.encrypt_and_digest(payload)
@@ -43,7 +43,7 @@ class DeterministicAuthenticatedEncryptionMixin(MixinBaseClass):
         tag = base64.b64decode(payload["t"])
 
         try:
-            aes = AES.new(cls.AesKey, AES.MODE_SIV)
+            aes = AES.new(require_bytes(cls.AesKey), AES.MODE_SIV)
             aes.update(require_bytes(key))
             plaintext = aes.decrypt_and_verify(ciphertext, tag)
         except ValueError as e:

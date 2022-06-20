@@ -2,7 +2,9 @@ import pytest
 
 
 def test_redis_hashmap_entity_identifier(redis_hashmap_entity):
-    assert redis_hashmap_entity.build_identifier("Identifier") == "TestPrefix:Identifier"
+    assert (
+        redis_hashmap_entity.build_identifier("Identifier") == "TestPrefix:Identifier"
+    )
 
 
 def test_redis_hashmap_enforce_valid_entity(redis_hashmap_entity):
@@ -55,4 +57,3 @@ def test_redis_hashmap_delete(redis_hashmap_entity):
     assert redis_hashmap_entity.exists("Identifier") is True
     redis_hashmap_entity.delete("Identifier")
     assert redis_hashmap_entity.exists("Identifier") is False
-

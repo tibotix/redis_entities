@@ -28,6 +28,7 @@ class TestDeterministicAuthenticatedEncryptionMixin(
 ):
     AesKey = b"deaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddeaddead"
 
+
 mixin_combinations = [
     (),
     (TestHashedIdentifierMixin,),
@@ -52,10 +53,25 @@ mixin_combination_ids = [
     "HashedIdentifierMixin+AuthenticatedEncryptionMixin",
     "HashedIdentifierMixin+DeterministicAuthenticatedEncryptionMixin",
 ]
-nondeterministic_mixin_combinations = [combination for combination in mixin_combinations if TestAuthenticatedEncryptionMixin in combination]
-deterministic_mixin_combinations = [combination for combination in mixin_combinations if TestAuthenticatedEncryptionMixin not in combination]
-nondeterministic_mixin_combination_ids = [mixin_combination_ids[mixin_combinations.index(combination)] for combination in nondeterministic_mixin_combinations]
-deterministic_mixin_combination_ids = [mixin_combination_ids[mixin_combinations.index(combination)] for combination in deterministic_mixin_combinations]
+nondeterministic_mixin_combinations = [
+    combination
+    for combination in mixin_combinations
+    if TestAuthenticatedEncryptionMixin in combination
+]
+deterministic_mixin_combinations = [
+    combination
+    for combination in mixin_combinations
+    if TestAuthenticatedEncryptionMixin not in combination
+]
+nondeterministic_mixin_combination_ids = [
+    mixin_combination_ids[mixin_combinations.index(combination)]
+    for combination in nondeterministic_mixin_combinations
+]
+deterministic_mixin_combination_ids = [
+    mixin_combination_ids[mixin_combinations.index(combination)]
+    for combination in deterministic_mixin_combinations
+]
+
 
 @pytest.fixture
 def redis_client():
@@ -89,7 +105,7 @@ def redis_hashmap_entity(redis_client):
     contents = ["Key1", "Key2"]
     return type(
         "TestHashmapEntity",
-        (RedisHashmapEntity, ),
+        (RedisHashmapEntity,),
         {
             "RedisClient": redis_client,
             "Prefix": "TestPrefix",
@@ -137,15 +153,21 @@ def redis_set_entity(redis_client):
     )
 
 
-
 @pytest.fixture(params=mixin_combinations, ids=mixin_combination_ids)
 def parametrized_redis_set_entity(request, redis_set_entity):
     return type("TestParametrizedSetEntity", (redis_set_entity, *request.param), {})
 
-@pytest.fixture(params=nondeterministic_mixin_combinations, ids=nondeterministic_mixin_combination_ids)
+
+@pytest.fixture(
+    params=nondeterministic_mixin_combinations,
+    ids=nondeterministic_mixin_combination_ids,
+)
 def parametrized_redis_nondeterministic_set_entity(request, redis_set_entity):
     return type("TestParametrizedSetEntity", (redis_set_entity, *request.param), {})
 
-@pytest.fixture(params=deterministic_mixin_combinations, ids=deterministic_mixin_combination_ids)
+
+@pytest.fixture(
+    params=deterministic_mixin_combinations, ids=deterministic_mixin_combination_ids
+)
 def parametrized_redis_deterministic_set_entity(request, redis_set_entity):
     return type("TestParametrizedSetEntity", (redis_set_entity, *request.param), {})

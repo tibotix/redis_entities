@@ -49,9 +49,7 @@ class RedisHashmapEntity(BaseRedisEntity):
         identifier = cls.build_identifier(identifier)
         return cls(
             identifier,
-            **cls._decrypt_kwargs_dict(
-                cls.RedisClient.hgetall(identifier)
-            ),
+            **cls._decrypt_kwargs_dict(cls.RedisClient.hgetall(identifier)),
         )
 
     @classmethod
