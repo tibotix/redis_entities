@@ -1,4 +1,3 @@
-import time
 from .base_entity import BaseRedisEntity, RedisEntityMetaclass
 from .parameters import require_string, require_bytes, b2timestamp, timestamp2b
 
