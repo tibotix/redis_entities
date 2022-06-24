@@ -4,7 +4,7 @@ import time
 import base64
 from secrets import compare_digest
 from Crypto.Cipher import AES
-from .exceptions import DecryptionException
+from ..exceptions import DecryptionException
 from .mixin_base import MixinBaseClass
 from ..parameters import timestamp2b, b2timestamp, require_bytes
 from ..exceptions import DecryptionException
