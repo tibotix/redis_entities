@@ -90,7 +90,7 @@ import redis
 from redis_entities import RedisHashmapEntity, 
 from redis_entities.mixins import HashedIdentifierMixin, AuthenticatedEncryptionMixin
 class VerifyEmailTokens(RedisHashmapEntity, HashedIdentifierMixin, AuthenticatedEncryptionMixin):
-    redis_client = redis.Redis(...)
+    RedisClient = redis.Redis(...)
     Prefix = "VerifyEmailTokens"
     Contents = (
         "MandatoryKey1",
