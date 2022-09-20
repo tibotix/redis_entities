@@ -20,5 +20,5 @@ setup(
     packages=["redis_entities", "redis_entities.mixins"],
     install_requires=["pycryptodome>=3.14.1"],
     extras_require={"test": ["pytest", "fakeredis"]},
-    python_requires=">=3.5, <4",
+    python_requires=">=3.8, <4",
 )
