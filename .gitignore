@@ -4,3 +4,4 @@
 .coverage
 dist/
 redis_entities.egg-info/
+.tox/
