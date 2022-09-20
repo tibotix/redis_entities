@@ -9,7 +9,7 @@ long_description = (here / "README.md").read_text(encoding="utf-8")
 
 setup(
     name="redis_entities",
-    version="1.0.6",
+    version="1.0.7",
     description="Redis Entities",
     long_description=long_description,
     long_description_content_type="text/markdown",
