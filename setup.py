@@ -10,7 +10,7 @@ install_requires = (here / "requirements.txt").read_text(encoding="utf-8").split
 
 setup(
     name="redis_entities",
-    version="1.0.7",
+    version="1.0.8",
     description="Redis Entities",
     long_description=long_description,
     long_description_content_type="text/markdown",
