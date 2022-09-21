@@ -1,4 +1,4 @@
-from .parameters import require_string, require_bytes
+from type_utils import require_string, require_bytes
 from .mixins.mixin_base import MixinBaseClass
 
 

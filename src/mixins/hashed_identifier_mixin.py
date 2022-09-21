@@ -1,7 +1,7 @@
 import hashlib
 
 from .mixin_base import MixinBaseClass
-from ..parameters import require_bytes
+from type_utils import require_bytes
 
 
 class HashedIdentifierMixin(MixinBaseClass):

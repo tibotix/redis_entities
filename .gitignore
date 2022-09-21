@@ -5,3 +5,4 @@
 dist/
 redis_entities.egg-info/
 .tox/
+coverage.xml

@@ -6,6 +6,7 @@ import pathlib
 
 here = pathlib.Path(__file__).parent.resolve()
 long_description = (here / "README.md").read_text(encoding="utf-8")
+install_requires = (here / "requirements.txt").read_text(encoding="utf-8").splitlines()
 
 setup(
     name="redis_entities",
@@ -18,7 +19,7 @@ setup(
     url="https://github.com/tibotix/redis_entities",
     package_dir={"redis_entities": "src"},
     packages=["redis_entities", "redis_entities.mixins"],
-    install_requires=["pycryptodome>=3.14.1"],
+    install_requires=install_requires,
     extras_require={"test": ["pytest", "fakeredis"]},
     python_requires=">=3.8, <4",
 )
