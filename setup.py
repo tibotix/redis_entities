@@ -21,8 +21,5 @@ setup(
     packages=["redis_entities", "redis_entities.mixins"],
     install_requires=install_requires,
     extras_require={"test": ["pytest", "fakeredis"]},
-    package_data={
-        "redis_entities": ["requirements.txt"]
-    },
     python_requires=">=3.8, <4",
 )
